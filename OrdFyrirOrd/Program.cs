@@ -35,7 +35,6 @@ namespace OrdFyrirOrd
 
 			if (selectFileDialog.ShowDialog() == DialogResult.OK)
 			{
-				DialogResult fileResult = selectFileDialog.ShowDialog ();
 				string openFileName = selectFileDialog.FileName;
 			}
 			#endregion
