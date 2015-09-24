@@ -17,25 +17,6 @@ namespace OrdFyrirOrd
 		public Dictionary <string, int> wordFrequency;
 
 		/// <summary>
-		/// Reads the file corresponding to the given filename in Ordtidni folder
-		/// </summary>
-		/// <param name="fileName">File name.</param>
-		public void Ordtidni(string fileName)
-		{
-			FileStream fs = new FileStream(@"Ordtidni\" + fileName, FileMode.Open, FileAccess.Read);
-			List<string> sentenceList = new List<string>();
-			XmlTextReader xmlReader = new XmlTextReader(fs);
-			while (xmlReader.Read())
-			{
-				xmlReader.ReadToDescendant("title");
-				for (int i = 0; i < xmlReader.AttributeCount; i++)
-				{
-					sentenceList.Add(xmlReader.Value);
-				}
-			}
-		}
-
-		/// <summary>
 		/// Uses the XmlReader to read through and split it down stream to sentences
 		/// and then to word. When it processes each word it checks
 		/// how often it has occured and adds it to +wordFrequency.
