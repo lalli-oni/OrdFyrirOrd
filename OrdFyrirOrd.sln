@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
+# Visual Studio 2012
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdFyrirOrd", "OrdFyrirOrd\OrdFyrirOrd.csproj", "{1A00F949-47FB-4E32-8456-FA77066178FF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OFOWebAPI", "OFOWebAPI\OFOWebAPI.csproj", "{05AFBE8C-3955-4AEE-8500-52A799F9C16D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		{1A00F949-47FB-4E32-8456-FA77066178FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A00F949-47FB-4E32-8456-FA77066178FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A00F949-47FB-4E32-8456-FA77066178FF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{05AFBE8C-3955-4AEE-8500-52A799F9C16D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{05AFBE8C-3955-4AEE-8500-52A799F9C16D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{05AFBE8C-3955-4AEE-8500-52A799F9C16D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{05AFBE8C-3955-4AEE-8500-52A799F9C16D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
