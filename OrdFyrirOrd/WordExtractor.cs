@@ -68,7 +68,6 @@ namespace OrdFyrirOrd
 				}
 			}
 			Console.WriteLine("Finished putting " + sentenceCounter + " sentences in the list");
-			Console.ReadLine();
 
 			foreach (var sentence in sentenceList) {
 				string[] splitString = sentence.Split(whitespace);
@@ -82,11 +81,14 @@ namespace OrdFyrirOrd
 					}
 					else
 					{
-						try {
-							wordFrequency.Add(word,2);
-						} catch (Exception) {
-							wordFrequency[word]++;
-						}
+					    if (wordFrequency.ContainsKey(word))
+                        {
+                            wordFrequency[word]++;
+                        }
+					    else
+                        {
+                            wordFrequency.Add(word, 2);
+                        }
 						//Console.WriteLine("Found duplicate of word: " + word);
 					}
 				}

@@ -18,37 +18,29 @@ namespace OrdFyrirOrd
 		private static WordCounter wordCount;
 		private static FileProcessor fileProc;
 
-		/// <summary>
-		/// The entry point of the program, where the program control starts and ends.
-		/// </summary>
-		/// <param name="args">The command-line arguments.</param>
-		[STAThread]
+        /// <summary>
+        /// The entry point of the program, where the program control starts and ends.
+        /// </summary>
+        /// <param name="args">The command-line arguments.</param>
+        [STAThread]
         static void Main(string[] args)
         {
 			wordGetter = new WordExtractor();
 			wordCount = new WordCounter();
 			fileProc = new FileProcessor();
 
-			#region Select a file
-			OpenFileDialog selectFileDialog = new OpenFileDialog ();
-			selectFileDialog.DefaultExt = "xml";
-			selectFileDialog.Filter = "xml files (*.xml)|*.xml";
-			selectFileDialog.InitialDirectory = "";
-			HashSet<string> wordDictionary;
-			if (selectFileDialog.ShowDialog() == DialogResult.OK)
-			{
-				string openFileName = selectFileDialog.FileName;
-				wordDictionary = wordGetter.processXml(fileProc.AccessFile (openFileName));
-			}
-			#endregion
+		    string filePath = fileProc.SelectXmlFile();
+            HashSet<string>  wordDictionary = wordGetter.processXml(fileProc.AccessFile(filePath));
+
+            Dictionary<string, int> topListWords = wordCount.MostUsedWords(wordGetter.wordFrequency);
+            foreach (var word in topListWords)
+            {
+                Console.WriteLine(word);
+            }
+            Console.WriteLine("Total words: " + wordDictionary.Count);
 
 
-			//HashSet<string> wordDictionary = wordGetter.Islex();
-			Dictionary<string,int> topListWords = wordCount.MostUsedWords (wordGetter.wordFrequency);
-			foreach (var word in topListWords) {
-				Console.WriteLine (word);
-			}
-			Console.WriteLine ("Total words: " + wordDictionary.Count);
+            //HashSet<string> wordDictionary = wordGetter.Islex();
             Console.ReadLine();
         }
     }
