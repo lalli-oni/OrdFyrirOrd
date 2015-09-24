@@ -14,17 +14,17 @@ namespace OrdFyrirOrd
     class Program
     {
 		private static WordExtractor wordGetter;
+		private static WordCounter wordCount;
         static void Main(string[] args)
         {
 			wordGetter = new WordExtractor();
-            int dbNumber = 0;
+			wordCount = new WordCounter();
 			HashSet<string> wordDictionary = wordGetter.Islex();
-            Console.ReadLine();
-            foreach (string word in wordDictionary)
-            {
-                dbNumber++;
-                Console.WriteLine("Adding word nr." + dbNumber + " of 39157/168414");
-            }
+			Dictionary<string,int> topListWords = wordCount.MostUsedWords (wordGetter.wordFrequency);
+			foreach (var word in topListWords) {
+				Console.WriteLine (word);
+			}
+			Console.WriteLine ("Total words: " + wordDictionary.Count);
             Console.ReadLine();
         }
     }
