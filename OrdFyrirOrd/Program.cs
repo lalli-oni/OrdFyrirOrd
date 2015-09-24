@@ -21,6 +21,7 @@ namespace OrdFyrirOrd
 		/// The entry point of the program, where the program control starts and ends.
 		/// </summary>
 		/// <param name="args">The command-line arguments.</param>
+		[STAThread]
         static void Main(string[] args)
         {
 			wordGetter = new WordExtractor();
