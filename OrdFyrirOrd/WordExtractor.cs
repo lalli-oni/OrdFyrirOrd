@@ -8,9 +8,18 @@ using System.Collections;
 
 namespace OrdFyrirOrd
 {
+	/// <summary>
+	/// Extracts words from multiple sources
+	/// </summary>
 	public class WordExtractor
 	{
+		//The field that holds every word (Key) that appears more than once and the number of times it appears (Value).
 		public Dictionary <string, int> wordFrequency;
+
+		/// <summary>
+		/// Reads the file corresponding to the given filename in Ordtidni folder
+		/// </summary>
+		/// <param name="fileName">File name.</param>
 		public void Ordtidni(string fileName)
 		{
 			FileStream fs = new FileStream(@"Ordtidni\" + fileName, FileMode.Open, FileAccess.Read);
@@ -26,7 +35,10 @@ namespace OrdFyrirOrd
 			}
 		}
 
-		//TODO: Refactor to a handler (Strategy?)
+		/// <summary>
+		/// Reads the Islex xml file that is included in the project folder
+		/// </summary>
+		/// <returns>A quickly iterative datacollection of every word from that file</returns>
 		public HashSet<string> Islex()
 		{
 			wordFrequency = new Dictionary <string, int>();
