@@ -3,8 +3,16 @@ using System.Collections.Generic;
 
 namespace OrdFyrirOrd
 {
+	/// <summary>
+	/// Provides various counting functions to the word collections
+	/// </summary>
 	public class WordCounter
 	{
+		/// <summary>
+		/// Sees w
+		/// </summary>
+		/// <returns>The used words.</returns>
+		/// <param name="frequentWords">Frequent words.</param>
 		public Dictionary<string,int> MostUsedWords(Dictionary<string, int> frequentWords)
 		{
 			int wordFrequencyCounter = frequentWords.Count;
