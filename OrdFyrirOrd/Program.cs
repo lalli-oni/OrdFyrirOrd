@@ -16,6 +16,7 @@ namespace OrdFyrirOrd
     {
 		private static WordExtractor wordGetter;
 		private static WordCounter wordCount;
+		private static FileProcessor fileProc;
 
 		/// <summary>
 		/// The entry point of the program, where the program control starts and ends.
@@ -26,20 +27,23 @@ namespace OrdFyrirOrd
         {
 			wordGetter = new WordExtractor();
 			wordCount = new WordCounter();
+			fileProc = new FileProcessor();
 
 			#region Select a file
 			OpenFileDialog selectFileDialog = new OpenFileDialog ();
 			selectFileDialog.DefaultExt = "xml";
 			selectFileDialog.Filter = "xml files (*.xml)|*.xml";
 			selectFileDialog.InitialDirectory = "";
-
+			HashSet<string> wordDictionary;
 			if (selectFileDialog.ShowDialog() == DialogResult.OK)
 			{
 				string openFileName = selectFileDialog.FileName;
+				wordDictionary = wordGetter.processXml(fileProc.AccessFile (openFileName));
 			}
 			#endregion
 
-			HashSet<string> wordDictionary = wordGetter.Islex();
+
+			//HashSet<string> wordDictionary = wordGetter.Islex();
 			Dictionary<string,int> topListWords = wordCount.MostUsedWords (wordGetter.wordFrequency);
 			foreach (var word in topListWords) {
 				Console.WriteLine (word);

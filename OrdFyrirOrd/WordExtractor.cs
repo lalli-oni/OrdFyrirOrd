@@ -36,30 +36,29 @@ namespace OrdFyrirOrd
 		}
 
 		/// <summary>
-		/// Reads the Islex xml file that is included in the project folder
+		/// Uses the XmlReader to read through and split it down stream to sentences
+		/// and then to word. When it processes each word it checks
+		/// how often it has occured and adds it to +wordFrequency.
 		/// </summary>
 		/// <returns>A quickly iterative datacollection of every word from that file</returns>
-		public HashSet<string> Islex()
+		public HashSet<string> processXml(XmlTextReader xmlStreamReader)
 		{
 			wordFrequency = new Dictionary <string, int>();
-			FileStream fs = new FileStream("islex_final.xml", FileMode.Open, FileAccess.Read);
 			HashSet<string> sentenceList = new HashSet<string>();
 			HashSet<string> wordList = new HashSet<string>();
-			XmlTextReader xmlReader = new XmlTextReader(fs);
-			xmlReader.XmlResolver = null;
 			int sentenceCounter = 0;
 			int wordCounter = 0;
 			char[] whitespace = new char[] {' ', '\t'};
-			while (xmlReader.Read())
+			while (xmlStreamReader.Read())
 			{
-				if (xmlReader.Value.Length > 2)
+				if (xmlStreamReader.Value.Length > 2)
 				{
-					if (!xmlReader.Value.Contains("\n"))
+					if (!xmlStreamReader.Value.Contains("\n"))
 					{
 						if (sentenceCounter > 0)
 						{
 							//TODO: Remove any ? and ' characters
-							StringBuilder sentenceBuilder = new StringBuilder(xmlReader.Value);
+							StringBuilder sentenceBuilder = new StringBuilder(xmlStreamReader.Value);
 							sentenceBuilder.Replace("\"", "");
 							sentenceList.Add(sentenceBuilder.ToString());
 							//Console.WriteLine("Added word n." + sentenceCounter + ": " + xmlReader.Value);
