@@ -32,6 +32,7 @@ namespace OrdFyrirOrd
         private List<CrawledPage> crawledPages;
         private List<Stream> crawledStream;
         public delegate List<Stream> ProcessPageResult(List<CrawledPage> pages);
+        private ProcessPageResult processPage;
 
         /// <summary>
         /// Creates the Crawler (with cancelToken) and gets the site and
@@ -39,23 +40,23 @@ namespace OrdFyrirOrd
         /// </summary>
         /// <param name="url">The page url to start crawling from</param>
         /// <returns>A collection of Readable streams containing the main body text</returns>
-        public List<Stream> GetSiteText(string url)
+        public List<Stream> GetSiteText(WebPages page, string url)
         {
             pageLimit = 10;
             crawledPages = new List<CrawledPage>();
             PoliteWebCrawler abotCrawler = new PoliteWebCrawler();
             cancelCrawlTokenSource = new CancellationTokenSource();
+            if (page == WebPages.Mbl)
+            {
+                abotCrawler.PageCrawlCompletedAsync += crawler_ProcessMblPageCrawlCompleted;
+                processPage = new ProcessPageResult(ProcessMblPageResult);
+            }
             abotCrawler.PageCrawlStartingAsync += crawler_ProcessPageCrawlStarting;
-            abotCrawler.PageCrawlCompletedAsync += crawler_ProcessPageCrawlCompleted;
             abotCrawler.PageCrawlDisallowedAsync += crawler_PageCrawlDisallowed;
             abotCrawler.PageLinksCrawlDisallowedAsync += crawler_PageLinksCrawlDisallowed;
             CrawlResult result = abotCrawler.Crawl(new Uri(url), cancelCrawlTokenSource);
-            if (crawledPages.Count > 1)
-            {
-                ProcessPageResult processPage = new ProcessPageResult(ProcessMblPageResult);
-                return processPage(crawledPages);
-            }
-            return null;
+
+            return processPage(crawledPages);
         }
 
         /// <summary>
@@ -65,23 +66,23 @@ namespace OrdFyrirOrd
         /// <param name="url">The page url to start crawling from</param>
         /// <param name="maxPages">The maximum number of pages retrieved</param>
         /// <returns>A collection of Readable streams containing the main body text</returns>
-        public List<Stream> GetSiteText(string url, int maxPages)
+        public List<Stream> GetSiteText(WebPages page, string url, int maxPages)
         {
             pageLimit = maxPages;
             crawledPages = new List<CrawledPage>();
             PoliteWebCrawler abotCrawler = new PoliteWebCrawler();
             cancelCrawlTokenSource = new CancellationTokenSource();
+            if (page == WebPages.Mbl)
+            {
+                abotCrawler.PageCrawlCompletedAsync += crawler_ProcessMblPageCrawlCompleted;
+                processPage = new ProcessPageResult(ProcessMblPageResult);
+            }
             abotCrawler.PageCrawlStartingAsync += crawler_ProcessPageCrawlStarting;
-            abotCrawler.PageCrawlCompletedAsync += crawler_ProcessPageCrawlCompleted;
             abotCrawler.PageCrawlDisallowedAsync += crawler_PageCrawlDisallowed;
             abotCrawler.PageLinksCrawlDisallowedAsync += crawler_PageLinksCrawlDisallowed;
             CrawlResult result = abotCrawler.Crawl(new Uri(url), cancelCrawlTokenSource);
-            if (crawledPages.Count > 1)
-            {
-                ProcessPageResult processPage = new ProcessPageResult(ProcessMblPageResult);
-                return processPage(crawledPages);
-            }
-            return null;
+
+            return processPage(crawledPages);
         }
 
         /// <summary>
@@ -120,7 +121,7 @@ namespace OrdFyrirOrd
             Console.WriteLine("About to crawl link {0} which was found on page {1}", pageToCrawl.Uri.AbsoluteUri, pageToCrawl.ParentUri.AbsoluteUri);
         }
 
-        void crawler_ProcessPageCrawlCompleted(object sender, PageCrawlCompletedArgs e)
+        void crawler_ProcessMblPageCrawlCompleted(object sender, PageCrawlCompletedArgs e)
         {
             CrawledPage crawledPage = e.CrawledPage;
 
@@ -144,7 +145,7 @@ namespace OrdFyrirOrd
                         }
                         catch (Exception)
                         {
-                            
+                            //This catches everytime a urlsegment doesn't have number only.
                         }
                     }
                 }
