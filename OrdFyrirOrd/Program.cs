@@ -17,6 +17,7 @@ namespace OrdFyrirOrd
 		private static WordExtractor wordGetter;
 		private static WordCounter wordCount;
 		private static FileProcessor fileProc;
+        private static WebCrawler webGetter;
 
         /// <summary>
         /// The entry point of the program, where the program control starts and ends.
@@ -28,8 +29,11 @@ namespace OrdFyrirOrd
 			wordGetter = new WordExtractor();
 			wordCount = new WordCounter();
 			fileProc = new FileProcessor();
+            webGetter = new WebCrawler();
 
-		    string filePath = fileProc.SelectXmlFile();
+            webGetter.GetSiteText("http://www.mbl.is/frettir/innlent/2015/09/24/lysa_eftir_milljonamaeringi/");
+
+            string filePath = fileProc.SelectXmlFile();
             HashSet<string>  wordDictionary = wordGetter.processXml(fileProc.AccessFile(filePath));
 
             Dictionary<string, int> topListWords = wordCount.MostUsedWords(wordGetter.wordFrequency);

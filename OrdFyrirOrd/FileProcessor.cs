@@ -14,7 +14,6 @@ namespace OrdFyrirOrd
         /// Opens up a dialog to select an XmlFile
         /// </summary>
         /// <returns>The path for the selected XmlFile</returns>
-        [STAThread]
         public string SelectXmlFile()
 	    {
             OpenFileDialog selectFileDialog = new OpenFileDialog();
