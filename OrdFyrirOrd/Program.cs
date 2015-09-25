@@ -36,10 +36,15 @@ namespace OrdFyrirOrd
             //webGetter.GetSiteText(WebPages.Mbl , "http://www.mbl.is/frettir/mest_lesid/", 20);
 
             string filePath = fileProc.SelectXmlFile();
-            Dictionary<string, int>  wordDictionary = wordGetter.processXml(fileProc.AccessFile(filePath));
+            Dictionary<string, int>  wordDictionary = wordGetter.processXml(fileProc.AccessXmlFile(filePath));
             Dictionary<string, int> sortedWordDictionary = wordCount.MostUsedWords(wordDictionary, wordDictionary.Count);
             persHandler.SaveToJson(sortedWordDictionary);
             Console.WriteLine("Total words: " + wordDictionary.Count);
+
+
+            Dictionary<string, int> wordDictionary2 = wordGetter.processXml(fileProc.AccessXmlFile(@"C:\Users\lalli\Documents\Visual Studio 2015\Projects\OrdFyrirOrd\Dictionaries\islex_final.xml"));
+            Dictionary<string, int> sortedWordDictionary2 = wordCount.MostUsedWords(wordDictionary2, wordDictionary2.Count);
+            wordCount.AmmendFrequency(sortedWordDictionary2, sortedWordDictionary2.Count);
 
 
             //HashSet<string> wordDictionary = wordGetter.Islex();

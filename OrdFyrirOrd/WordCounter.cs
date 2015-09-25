@@ -34,6 +34,38 @@ namespace OrdFyrirOrd
 			#endregion
 			return topWords;
 		}
-	}
+
+        /// <summary>
+        /// Adds words to the base json file.
+        /// </summary>
+        /// <param name="frequentWords">The list of words to add to the count</param>
+        /// <param name="numberOfRanks">Number of words to add</param>
+        public void AmmendFrequency(Dictionary<string, int> frequentWords, int numberOfRanks)
+        {
+            FileProcessor fileHandler = new FileProcessor();
+            Dictionary<string, int> masterWordList = fileHandler.AccessJsonFile(@"C:\WordProcessing\wordList.txt");
+
+            foreach (KeyValuePair<string, int> pair in frequentWords)
+            {
+                if (masterWordList.ContainsKey(pair.Key))
+                {
+                    masterWordList[pair.Key] = masterWordList[pair.Key] + pair.Value;
+                }
+                else
+                {
+                    masterWordList.Add(pair.Key, pair.Value);
+                }
+            }
+
+            #region write out results
+            //foreach (var word in topWords) {
+            //	Console.WriteLine (word);
+            //}
+            #endregion
+            
+            PersistenceHandler fileSaver = new PersistenceHandler();
+            fileSaver.AmmendJson(masterWordList);
+        }
+    }
 }
 

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
+using Newtonsoft.Json;
 
 namespace OrdFyrirOrd
 {
@@ -28,17 +30,34 @@ namespace OrdFyrirOrd
 	    }
 
         /// <summary>
-        /// Accesses a file at a certain path
+        /// Accesses a xml file at a certain path
         /// </summary>
         /// <returns>The stream to read the file</returns>
         /// <param name="filePath">File path.</param>
-        public XmlTextReader AccessFile(string filePath)
+        public XmlTextReader AccessXmlFile(string filePath)
 		{
 			FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
             XmlTextReader xmlReader = new XmlTextReader(fs);
             xmlReader.XmlResolver = null;
 			return xmlReader;
 		}
-	}
+
+        /// <summary>
+        /// Accesses a json file at a certain path
+        /// </summary>
+        /// <returns>The stream to read the file</returns>
+        /// <param name="filePath">File path.</param>
+        public Dictionary<string, int> AccessJsonFile(string filePath)
+        {
+            FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            string fileText = "";
+            using (StreamReader sr = new StreamReader(fs))
+            {
+                fileText = sr.ReadToEnd();
+            }
+            Dictionary<string, int> savedWords = JsonConvert.DeserializeObject<Dictionary<string, int>>(fileText);
+            return savedWords;
+        }
+    }
 }
 
