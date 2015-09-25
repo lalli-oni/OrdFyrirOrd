@@ -31,7 +31,7 @@ namespace OrdFyrirOrd
 			fileProc = new FileProcessor();
             webGetter = new WebCrawler();
 
-            webGetter.GetSiteText("http://www.mbl.is/frettir/innlent/2015/09/24/lysa_eftir_milljonamaeringi/");
+            webGetter.GetSiteText("http://www.mbl.is/frettir/mest_lesid/", 20);
 
             string filePath = fileProc.SelectXmlFile();
             HashSet<string>  wordDictionary = wordGetter.processXml(fileProc.AccessFile(filePath));

@@ -27,7 +27,7 @@ namespace OrdFyrirOrd
     /// </summary>
     class WebCrawler
     {
-        private int maxPages;
+        private int pageLimit;
         private CancellationTokenSource cancelCrawlTokenSource;
         private List<CrawledPage> crawledPages;
         private List<Stream> crawledStream;
@@ -35,12 +35,39 @@ namespace OrdFyrirOrd
 
         /// <summary>
         /// Creates the Crawler (with cancelToken) and gets the site and
-        /// underlying pages (up to a certain amount).
+        /// underlying pages (up to 10 pages).
         /// </summary>
         /// <param name="url">The page url to start crawling from</param>
         /// <returns>A collection of Readable streams containing the main body text</returns>
         public List<Stream> GetSiteText(string url)
         {
+            pageLimit = 10;
+            crawledPages = new List<CrawledPage>();
+            PoliteWebCrawler abotCrawler = new PoliteWebCrawler();
+            cancelCrawlTokenSource = new CancellationTokenSource();
+            abotCrawler.PageCrawlStartingAsync += crawler_ProcessPageCrawlStarting;
+            abotCrawler.PageCrawlCompletedAsync += crawler_ProcessPageCrawlCompleted;
+            abotCrawler.PageCrawlDisallowedAsync += crawler_PageCrawlDisallowed;
+            abotCrawler.PageLinksCrawlDisallowedAsync += crawler_PageLinksCrawlDisallowed;
+            CrawlResult result = abotCrawler.Crawl(new Uri(url), cancelCrawlTokenSource);
+            if (crawledPages.Count > 1)
+            {
+                ProcessPageResult processPage = new ProcessPageResult(ProcessMblPageResult);
+                return processPage(crawledPages);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Creates the Crawler (with cancelToken) and gets the site and
+        /// underlying pages.
+        /// </summary>
+        /// <param name="url">The page url to start crawling from</param>
+        /// <param name="maxPages">The maximum number of pages retrieved</param>
+        /// <returns>A collection of Readable streams containing the main body text</returns>
+        public List<Stream> GetSiteText(string url, int maxPages)
+        {
+            pageLimit = maxPages;
             crawledPages = new List<CrawledPage>();
             PoliteWebCrawler abotCrawler = new PoliteWebCrawler();
             cancelCrawlTokenSource = new CancellationTokenSource();
@@ -85,7 +112,7 @@ namespace OrdFyrirOrd
         #region Events
         void crawler_ProcessPageCrawlStarting(object sender, PageCrawlStartingArgs e)
         {
-            if (crawledPages.Count() >= 10)
+            if (crawledPages.Count() >= pageLimit)
             {
                 cancelCrawlTokenSource.Cancel(true);
             }
@@ -102,16 +129,31 @@ namespace OrdFyrirOrd
             else
             {
                 Console.WriteLine("Crawl of page succeeded {0}", crawledPage.Uri.AbsoluteUri);
-                if (crawledPages.Count() < 10)
+                if (crawledPages.Count() < pageLimit)
                 {
-                    crawledPages.Add(crawledPage);
+                    //This ugly thing is to check if the url includes a segment containing only numbers
+                    //That is the format mbl.is uses for it's articles.
+                    //TODO: Find a better place for this, should happen before the request but shouldn't be mbl specific
+                    foreach (string segment in crawledPage.Uri.Segments)
+                    {
+                        try
+                        {
+                            int x = Convert.ToInt16(segment.TrimEnd('/'));
+                            crawledPages.Add(crawledPage);
+                            break;
+                        }
+                        catch (Exception)
+                        {
+                            
+                        }
+                    }
                 }
             }
 
             if (string.IsNullOrEmpty(crawledPage.Content.Text))
                 Console.WriteLine("Page had no content {0}", crawledPage.Uri.AbsoluteUri);
 
-            if (crawledPages.Count() >= 10)
+            if (crawledPages.Count() >= pageLimit)
             {
                 cancelCrawlTokenSource.Cancel(true);
             }
