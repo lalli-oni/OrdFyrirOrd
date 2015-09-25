@@ -36,14 +36,9 @@ namespace OrdFyrirOrd
             //webGetter.GetSiteText(WebPages.Mbl , "http://www.mbl.is/frettir/mest_lesid/", 20);
 
             string filePath = fileProc.SelectXmlFile();
-            HashSet<string>  wordDictionary = wordGetter.processXml(fileProc.AccessFile(filePath));
-
-            Dictionary<string, int> topListWords = wordCount.MostUsedWords(wordGetter.wordFrequency);
-            persHandler.SaveToJson(topListWords, @"C:/Temp/jsonFrequencyTest.txt");
-            foreach (var word in topListWords)
-            {
-                Console.WriteLine(word);
-            }
+            Dictionary<string, int>  wordDictionary = wordGetter.processXml(fileProc.AccessFile(filePath));
+            
+            persHandler.SaveToJson(wordDictionary);
             Console.WriteLine("Total words: " + wordDictionary.Count);
 
 
