@@ -37,8 +37,8 @@ namespace OrdFyrirOrd
 
             string filePath = fileProc.SelectXmlFile();
             Dictionary<string, int>  wordDictionary = wordGetter.processXml(fileProc.AccessFile(filePath));
-            
-            persHandler.SaveToJson(wordDictionary);
+            Dictionary<string, int> sortedWordDictionary = wordCount.MostUsedWords(wordDictionary, wordDictionary.Count);
+            persHandler.SaveToJson(sortedWordDictionary);
             Console.WriteLine("Total words: " + wordDictionary.Count);
 
 
