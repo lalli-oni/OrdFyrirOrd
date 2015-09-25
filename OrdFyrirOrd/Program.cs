@@ -18,6 +18,7 @@ namespace OrdFyrirOrd
 		private static WordCounter wordCount;
 		private static FileProcessor fileProc;
         private static WebCrawler webGetter;
+        private static PersistenceHandler persHandler;
 
         /// <summary>
         /// The entry point of the program, where the program control starts and ends.
@@ -30,13 +31,15 @@ namespace OrdFyrirOrd
 			wordCount = new WordCounter();
 			fileProc = new FileProcessor();
             webGetter = new WebCrawler();
+            persHandler = new PersistenceHandler();
 
-            webGetter.GetSiteText("http://www.mbl.is/frettir/mest_lesid/", 20);
+            //webGetter.GetSiteText(WebPages.Mbl , "http://www.mbl.is/frettir/mest_lesid/", 20);
 
             string filePath = fileProc.SelectXmlFile();
             HashSet<string>  wordDictionary = wordGetter.processXml(fileProc.AccessFile(filePath));
 
             Dictionary<string, int> topListWords = wordCount.MostUsedWords(wordGetter.wordFrequency);
+            persHandler.SaveToJson(topListWords, @"C:/Temp/jsonFrequencyTest.txt");
             foreach (var word in topListWords)
             {
                 Console.WriteLine(word);
