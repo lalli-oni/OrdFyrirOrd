@@ -35,8 +35,8 @@ namespace OrdFyrirOrd
         public XmlTextReader AccessFile(string filePath)
 		{
 			FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-			XmlTextReader xmlReader = new XmlTextReader (fs);
-			xmlReader.XmlResolver = null;
+            XmlTextReader xmlReader = new XmlTextReader(fs);
+            xmlReader.XmlResolver = null;
 			return xmlReader;
 		}
 	}
