@@ -9,7 +9,7 @@ using Formatting = Newtonsoft.Json.Formatting;
 namespace OrdFyrirOrd
 {
     /// <summary>
-    /// Access files and returns streams.
+    /// Access file sources and returns content as json.
     /// </summary>
     public class FileProcessor
 	{
@@ -28,7 +28,7 @@ namespace OrdFyrirOrd
 	            return selectFileDialog.FileName;
 	        }
             return null;
-	    }
+        }
 
         /// <summary>
         /// Accesses a xml file at a certain path
@@ -47,9 +47,9 @@ namespace OrdFyrirOrd
         /// <summary>
         /// Accesses a json file at a certain path
         /// </summary>
-        /// <returns>The stream to read the file</returns>
+        /// <returns>A json formatted string</returns>
         /// <param name="filePath">File path.</param>
-        public Dictionary<string, int> AccessJsonFile(string fileName)
+        public string AccessJsonFile(string fileName)
         {
             string path = Directory.GetCurrentDirectory();
             FileStream fs = new FileStream(path + "/output/" + fileName, FileMode.Open, FileAccess.Read);
@@ -58,8 +58,7 @@ namespace OrdFyrirOrd
             {
                 fileText = sr.ReadToEnd();
             }
-            Dictionary<string, int> savedWords = JsonConvert.DeserializeObject<Dictionary<string, int>>(fileText);
-            return savedWords;
+            return fileText;
         }
     }
 }

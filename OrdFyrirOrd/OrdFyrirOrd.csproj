@@ -74,9 +74,10 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileAccessorExtensions.cs" />
+    <Compile Include="Extensions\FileAccessorExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SentenceHandler.cs" />
     <Compile Include="WebCrawler.cs" />
     <Compile Include="WordExtractor.cs" />
     <Compile Include="WordCounter.cs" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace OrdFyrirOrd
 {
@@ -44,7 +45,8 @@ namespace OrdFyrirOrd
         public void AmmendFrequency(Dictionary<string, int> frequentWords, int numberOfRanks)
         {
             FileProcessor fileHandler = new FileProcessor();
-            Dictionary<string, int> masterWordList = fileHandler.AccessJsonFile("wordList.txt");
+            string jsonText = fileHandler.AccessJsonFile("wordList.txt");
+            Dictionary<string, int> masterWordList = JsonConvert.DeserializeObject<Dictionary<string, int>>(jsonText)
 
             foreach (KeyValuePair<string, int> pair in frequentWords)
             {

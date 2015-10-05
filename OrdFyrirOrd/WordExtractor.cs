@@ -21,7 +21,6 @@ namespace OrdFyrirOrd
 		/// <returns>A quickly iterative datacollection of every word from that file</returns>
 		public Dictionary<string, int> processXml(XmlReader xmlStreamReader)
 		{
-
 		    List<string> sentences = SplitToSentences(xmlStreamReader);
 		    Dictionary<string, int> wordList = SplitToWords(sentences);
 			return wordList;
