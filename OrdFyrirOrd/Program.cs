@@ -18,7 +18,6 @@ namespace OrdFyrirOrd
 		private static WordCounter wordCount;
 		private static FileProcessor fileProc;
         private static WebCrawler webGetter;
-        private static PersistenceHandler persHandler;
 
         /// <summary>
         /// The entry point of the program, where the program control starts and ends.
@@ -31,14 +30,14 @@ namespace OrdFyrirOrd
 			wordCount = new WordCounter();
 			fileProc = new FileProcessor();
             webGetter = new WebCrawler();
-            persHandler = new PersistenceHandler();
 
             //webGetter.GetSiteText(WebPages.Mbl , "http://www.mbl.is/frettir/mest_lesid/", 20);
 
             string filePath = fileProc.SelectXmlFile();
             Dictionary<string, int>  wordDictionary = wordGetter.processXml(fileProc.AccessXmlFile(filePath));
             Dictionary<string, int> sortedWordDictionary = wordCount.MostUsedWords(wordDictionary, wordDictionary.Count);
-            persHandler.SaveToJson(sortedWordDictionary);
+            Console.WriteLine("Input the name of the file:");
+            sortedWordDictionary.SaveEnumerableJson(Console.ReadLine(), FileMode.CreateNew);
             Console.WriteLine("Total words: " + wordDictionary.Count);
 
 

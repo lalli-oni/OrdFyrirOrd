@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace OrdFyrirOrd
 {
@@ -43,7 +44,7 @@ namespace OrdFyrirOrd
         public void AmmendFrequency(Dictionary<string, int> frequentWords, int numberOfRanks)
         {
             FileProcessor fileHandler = new FileProcessor();
-            Dictionary<string, int> masterWordList = fileHandler.AccessJsonFile(@"C:\WordProcessing\wordList.txt");
+            Dictionary<string, int> masterWordList = fileHandler.AccessJsonFile("wordList.txt");
 
             foreach (KeyValuePair<string, int> pair in frequentWords)
             {
@@ -62,9 +63,7 @@ namespace OrdFyrirOrd
             //	Console.WriteLine (word);
             //}
             #endregion
-            
-            PersistenceHandler fileSaver = new PersistenceHandler();
-            fileSaver.AmmendJson(masterWordList);
+            masterWordList.SaveEnumerableJson("wordList.txt", FileMode.Open);
         }
     }
 }

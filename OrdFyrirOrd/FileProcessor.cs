@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml;
 using Newtonsoft.Json;
+using Formatting = Newtonsoft.Json.Formatting;
 
 namespace OrdFyrirOrd
 {
@@ -34,9 +35,10 @@ namespace OrdFyrirOrd
         /// </summary>
         /// <returns>The stream to read the file</returns>
         /// <param name="filePath">File path.</param>
-        public XmlTextReader AccessXmlFile(string filePath)
+        public XmlTextReader AccessXmlFile(string fileName)
 		{
-			FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            string path = Directory.GetCurrentDirectory();
+            FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
             XmlTextReader xmlReader = new XmlTextReader(fs);
             xmlReader.XmlResolver = null;
 			return xmlReader;
@@ -47,9 +49,10 @@ namespace OrdFyrirOrd
         /// </summary>
         /// <returns>The stream to read the file</returns>
         /// <param name="filePath">File path.</param>
-        public Dictionary<string, int> AccessJsonFile(string filePath)
+        public Dictionary<string, int> AccessJsonFile(string fileName)
         {
-            FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            string path = Directory.GetCurrentDirectory();
+            FileStream fs = new FileStream(path + "/output/" + fileName, FileMode.Open, FileAccess.Read);
             string fileText = "";
             using (StreamReader sr = new StreamReader(fs))
             {
