@@ -46,7 +46,7 @@ namespace OrdFyrirOrd
         {
             FileProcessor fileHandler = new FileProcessor();
             string jsonText = fileHandler.AccessJsonFile("wordList.txt");
-            Dictionary<string, int> masterWordList = JsonConvert.DeserializeObject<Dictionary<string, int>>(jsonText)
+            Dictionary<string, int> masterWordList = JsonConvert.DeserializeObject<Dictionary<string, int>>(jsonText);
 
             foreach (KeyValuePair<string, int> pair in frequentWords)
             {

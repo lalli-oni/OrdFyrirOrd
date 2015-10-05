@@ -52,8 +52,8 @@ namespace OrdFyrirOrd
         public string AccessJsonFile(string fileName)
         {
             string path = Directory.GetCurrentDirectory();
-            FileStream fs = new FileStream(path + "/output/" + fileName, FileMode.Open, FileAccess.Read);
-            string fileText = "";
+            FileStream fs = new FileStream(path + "/output/" + fileName, FileMode.Open, FileAccess.ReadWrite);
+            string fileText;
             using (StreamReader sr = new StreamReader(fs))
             {
                 fileText = sr.ReadToEnd();

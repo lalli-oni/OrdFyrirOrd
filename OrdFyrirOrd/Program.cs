@@ -18,6 +18,8 @@ namespace OrdFyrirOrd
 		private static WordCounter wordCount;
 		private static FileProcessor fileProc;
         private static WebCrawler webGetter;
+        private static WordHandler wh;
+        private static SentenceHandler sh;
 
         /// <summary>
         /// The entry point of the program, where the program control starts and ends.
@@ -26,27 +28,27 @@ namespace OrdFyrirOrd
         [STAThread]
         static void Main(string[] args)
         {
-			wordGetter = new WordExtractor();
-			wordCount = new WordCounter();
-			fileProc = new FileProcessor();
+            #region Instanciations
+            //Source Managers
+            fileProc = new FileProcessor();
             webGetter = new WebCrawler();
 
-            //webGetter.GetSiteText(WebPages.Mbl , "http://www.mbl.is/frettir/mest_lesid/", 20);
+            //Data Managers
+            sh = new SentenceHandler();
+            wh = new WordHandler();
 
-            string filePath = fileProc.SelectXmlFile();
-            Dictionary<string, int>  wordDictionary = wordGetter.processXml(fileProc.AccessXmlFile(filePath));
-            Dictionary<string, int> sortedWordDictionary = wordCount.MostUsedWords(wordDictionary, wordDictionary.Count);
-            Console.WriteLine("Input the name of the file:");
-            sortedWordDictionary.SaveEnumerableJson(Console.ReadLine(), FileMode.CreateNew);
-            Console.WriteLine("Total words: " + wordDictionary.Count);
+            //Output Managers
+            #endregion
 
+            //Opens up a file dialog to select a xml file.
+            XmlTextReader xmlReader = fileProc.AccessXmlFile(fileProc.SelectXmlFile());
+            //Splits the source into sentences (data)
+            List<string> sentences = sh.SplitToSentences(xmlReader);
+            //Splits the sentences into words with frequency (data)
+            Dictionary<string, int> frequencyWords = wh.SplitToWords(sentences);
+            //Saves the data to a json formatted .txt file
+            frequencyWords.SaveEnumerableJson(Console.ReadLine(), FileMode.Create);
 
-            Dictionary<string, int> wordDictionary2 = wordGetter.processXml(fileProc.AccessXmlFile(@"C:\Users\lalli\Documents\Visual Studio 2015\Projects\OrdFyrirOrd\Dictionaries\islex_final.xml"));
-            Dictionary<string, int> sortedWordDictionary2 = wordCount.MostUsedWords(wordDictionary2, wordDictionary2.Count);
-            wordCount.AmmendFrequency(sortedWordDictionary2, sortedWordDictionary2.Count);
-
-
-            //HashSet<string> wordDictionary = wordGetter.Islex();
             Console.ReadLine();
         }
     }
