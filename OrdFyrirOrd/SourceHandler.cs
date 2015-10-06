@@ -9,11 +9,19 @@ namespace OrdFyrirOrd
 {
     class SourceHandler
     {
+        private char[] ignoredChars;
+
+        public SourceHandler()
+        {
+            ignoredChars = new char[] { '\r','\n', ' ', '\"'};
+        }
+
         public string formatXml(XmlReader source, Source sourceType)
         {
             StringBuilder sb = new StringBuilder();
             if (sourceType == Source.Ordtidni)
             {
+                source.MoveToContent();
                 while (source.Read())
                 {
                     try
@@ -22,13 +30,17 @@ namespace OrdFyrirOrd
                         {
                             if (source.Value.Length > 0)
                             {
+                                foreach (char ignoredChar in ignoredChars)
+                                {
+                                    source.Value.Replace(ignoredChar, '\0');
+                                }
                                 sb.AppendLine(source.Value);
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
-                        source.Skip();
+                        throw new Exception(e.Message);
                     }
                 }
             }
