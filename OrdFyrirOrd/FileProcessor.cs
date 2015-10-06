@@ -31,34 +31,34 @@ namespace OrdFyrirOrd
         }
 
         /// <summary>
-        /// Accesses a xml file at a certain path
+        /// Accesses a xml file at a given path
         /// </summary>
-        /// <returns>The stream to read the file</returns>
+        /// <returns>A json string</returns>
         /// <param name="filePath">File path.</param>
-        public XmlTextReader AccessXmlFile(string fileName)
+        public XmlDocument AccessXmlFile(string fileName)
 		{
-            string path = Directory.GetCurrentDirectory();
-            FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-            XmlTextReader xmlReader = new XmlTextReader(fs);
-            xmlReader.XmlResolver = null;
-			return xmlReader;
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.XmlResolver = null;
+            FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite);
+            xmlDoc.Load(fs);
+			return xmlDoc;
 		}
 
         /// <summary>
-        /// Accesses a json file at a certain path
+        /// Accesses a json file at a given path
         /// </summary>
         /// <returns>A json formatted string</returns>
         /// <param name="filePath">File path.</param>
         public string AccessJsonFile(string fileName)
         {
-            string path = Directory.GetCurrentDirectory();
-            FileStream fs = new FileStream(path + "/output/" + fileName, FileMode.Open, FileAccess.ReadWrite);
-            string fileText;
+            //string path = Directory.GetCurrentDirectory();
+            FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite);
+            string jsonString;
             using (StreamReader sr = new StreamReader(fs))
             {
-                fileText = sr.ReadToEnd();
+                jsonString = sr.ReadToEnd();
             }
-            return fileText;
+            return jsonString;
         }
     }
 }

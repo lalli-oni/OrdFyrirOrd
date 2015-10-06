@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using Newtonsoft.Json;
 
 namespace OrdFyrirOrd
 {
@@ -17,8 +19,9 @@ namespace OrdFyrirOrd
 		/// <returns>All sentences from the xml stream</returns>
 		public List<string> processXml(XmlReader xmlStreamReader)
         {
-            List<string> sentences = SplitToSentences(xmlStreamReader);
-            return sentences;
+            throw new NotImplementedException("Are you sure?");
+            //List<string> sentences = SplitToSentences(xmlStreamReader);
+            //return sentences;
         }
 
         /// <summary>
@@ -26,20 +29,21 @@ namespace OrdFyrirOrd
         /// </summary>
         /// <param name="xmlStreamReader">The text stream to split</param>
         /// <returns>List of sentences</returns>
-	    public List<string> SplitToSentences(XmlReader xmlStreamReader)
+	    public List<string> SplitToSentences(string jsonInput)
         {
             List<string> sentenceList = new List<string>();
             int sentenceCounter = 0;
-            while (xmlStreamReader.Read())
+            JsonTextReader reader = new JsonTextReader(new StringReader(jsonInput));
+            while (reader.Read())
             {
-                if (xmlStreamReader.Value.Length > 2)
+                if (reader.Value.ToString().Length > 2)
                 {
-                    if (!xmlStreamReader.Value.Contains("\n"))
+                    if (!reader.Value.ToString().Contains("\n"))
                     {
                         if (sentenceCounter > 0)
                         {
                             //TODO: Remove any ? and ' characters
-                            StringBuilder sentenceBuilder = new StringBuilder(xmlStreamReader.Value);
+                            StringBuilder sentenceBuilder = new StringBuilder(reader.Value.ToString());
                             sentenceBuilder.Replace("\"", "");
                             sentenceList.Add(sentenceBuilder.ToString());
                             //Console.WriteLine("Added word n." + sentenceCounter + ": " + xmlReader.Value);
