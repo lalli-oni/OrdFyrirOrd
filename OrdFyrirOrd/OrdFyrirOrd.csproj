@@ -78,6 +78,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SentenceHandler.cs" />
+    <Compile Include="SourceEnum.cs" />
     <Compile Include="SourceHandler.cs" />
     <Compile Include="WebCrawler.cs" />
     <Compile Include="WordExtractor.cs" />

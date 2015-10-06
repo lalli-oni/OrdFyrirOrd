@@ -19,15 +19,15 @@ namespace OrdFyrirOrd
 		/// <returns>All sentences from the xml stream</returns>
 		public List<string> processXml(XmlReader xmlStreamReader)
         {
-            throw new NotImplementedException("Are you sure?");
+            throw new NotImplementedException("This has been moved to FileProcessor and SourceHandler");
             //List<string> sentences = SplitToSentences(xmlStreamReader);
             //return sentences;
         }
 
         /// <summary>
-        /// Reads the stream and splits each line into sentences.
+        /// Reads a json formatted string and splits each line into sentences.
         /// </summary>
-        /// <param name="xmlStreamReader">The text stream to split</param>
+        /// <param name="jsonInput">The json string to split</param>
         /// <returns>List of sentences</returns>
 	    public List<string> SplitToSentences(string jsonInput)
         {

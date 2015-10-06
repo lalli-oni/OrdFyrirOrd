@@ -35,13 +35,17 @@ namespace OrdFyrirOrd
         /// </summary>
         /// <returns>A json string</returns>
         /// <param name="filePath">File path.</param>
-        public XmlDocument AccessXmlFile(string fileName)
+        public XmlReader AccessXmlFile(string fileName)
 		{
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.XmlResolver = null;
             FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite);
-            xmlDoc.Load(fs);
-			return xmlDoc;
+            XmlReader xr = XmlReader.Create(fs, new XmlReaderSettings()
+            {
+                IgnoreComments = true,
+                IgnoreWhitespace = true,
+                IgnoreProcessingInstructions = true,
+                DtdProcessing = DtdProcessing.Ignore
+            });
+			return xr;
 		}
 
         /// <summary>

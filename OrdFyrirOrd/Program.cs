@@ -41,11 +41,10 @@ namespace OrdFyrirOrd
 
             //Output Managers
             #endregion
-
             //Opens up a file dialog to select a xml file. Returns an XmlDocument
-            XmlDocument xmlDoc = fileProc.AccessXmlFile(fileProc.SelectXmlFile());
+            XmlReader sourceReader = fileProc.AccessXmlFile(fileProc.SelectXmlFile());
             //Formats the source data into a standardized json for us to work with
-            string formattedSource = sourceHandler.xmlWrangler(xmlDoc);
+            string formattedSource = sourceHandler.formatXml(sourceReader, Source.Ordtidni);
             //Splits the source data into sentences
             List<string> sentences = sh.SplitToSentences(formattedSource);
             //Splits the sentences into words with frequency
