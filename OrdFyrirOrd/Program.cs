@@ -42,9 +42,11 @@ namespace OrdFyrirOrd
             //Output Managers
             #endregion
             //Opens up a file dialog to select a xml file. Returns an XmlDocument
-            XmlReader sourceReader = fileProc.AccessXmlFile(fileProc.SelectXmlFile());
+			XmlReader sourceReader = fileProc.AccessXmlFile("/Users/Oni/Documents/Programming/C#/OrdFyrirOrd/OrdFyrirOrd/bin/Debug/islex_final.xml");
             //Formats the source data into a standardized json for us to work with
             string formattedSource = sourceHandler.formatXml(sourceReader, Source.Ordtidni);
+			//add each line into a list 
+			List<string> lines = sh.SplitLines(formattedSource);
             //Splits the source data into sentences
             List<string> sentences = sh.SplitToSentences(formattedSource);
             //Splits the sentences into words with frequency

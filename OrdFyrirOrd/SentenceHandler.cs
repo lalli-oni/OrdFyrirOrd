@@ -24,6 +24,26 @@ namespace OrdFyrirOrd
             //return sentences;
         }
 
+		public List<string> SplitLines(string sourceString)
+		{
+			List<string> sentenceList = new List<string>();
+			int sentenceCounter = 0;
+			StringReader sr = new StringReader (sourceString);
+			string rLine = null;
+			while (true) 
+			{
+				rLine = sr.ReadLine ();
+				if (rLine != null) 
+				{
+					sentenceList.Add (rLine);
+				} 
+				else 
+				{
+					return sentenceList;
+				}
+			}
+		}
+
         /// <summary>
         /// Reads a json formatted string and splits each line into sentences.
         /// </summary>
