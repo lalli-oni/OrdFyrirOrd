@@ -4,6 +4,9 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml;
 using Newtonsoft.Json;
+using OrdFyrirOrd.Interfaces;
+using OrdFyrirOrd.Interfaces.Readers;
+using OrdFyrirOrd.Models;
 using Formatting = Newtonsoft.Json.Formatting;
 
 namespace OrdFyrirOrd
@@ -35,17 +38,18 @@ namespace OrdFyrirOrd
         /// </summary>
         /// <returns>A json string</returns>
         /// <param name="filePath">File path.</param>
-        public XmlReader AccessXmlFile(string fileName)
+        public IReader AccessXmlFile(string fileName)
 		{
             FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite);
-            XmlReader xr = XmlReader.Create(fs, new XmlReaderSettings()
+            XmlReaderWrapper wrapper = new XmlReaderWrapper();
+            IReader reader = wrapper.Create(fs, new XmlReaderSettings()
             {
                 IgnoreComments = true,
                 IgnoreWhitespace = true,
                 IgnoreProcessingInstructions = true,
                 DtdProcessing = DtdProcessing.Ignore
             });
-			return xr;
+			return reader;
 		}
 
         /// <summary>

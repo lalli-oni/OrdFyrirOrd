@@ -9,40 +9,44 @@ using Newtonsoft.Json;
 
 namespace OrdFyrirOrd
 {
+    /// <summary>
+    /// Provides processing for sentences.
+    /// </summary>
     class SentenceHandler
     {
+        #region Split Methods
         /// <summary>
-		/// Uses the XmlReader to read through and split it down stream to sentences
-		/// and then to word. When it processes each word it checks
-		/// how often it has occured and adds it to +wordFrequency.
-		/// </summary>
-		/// <returns>All sentences from the xml stream</returns>
-		public List<string> processXml(XmlReader xmlStreamReader)
+        /// Splits the sentence to words based on line returns and white space.
+        /// Only for Json sources. The sourcehandler should be used to get json
+        /// </summary>
+        /// <param name="sentences">A List of sentences to extract words from</param>
+        /// <returns>A list of words</returns>
+        public Dictionary<string, int> SplitToWords(List<string> sentences)
         {
-            throw new NotImplementedException("This has been moved to FileProcessor and SourceHandler");
-            //List<string> sentences = SplitToSentences(xmlStreamReader);
-            //return sentences;
+            int wordCounter = 0;
+            Dictionary<string, int> wordList = new Dictionary<string, int>();
+            char[] whitespace = new char[] { ' ', '\t' };
+            foreach (var sentence in sentences)
+            {
+                string[] splitString = sentence.Split(whitespace);
+                foreach (string word in splitString)
+                {
+                    if (!wordList.ContainsKey(word))
+                    {
+                        wordList.Add(word, 1);
+                        wordCounter++;
+                        //Console.WriteLine("Added word n." + wordCounter + ": " + word);
+                    }
+                    else
+                    {
+                        wordList[word]++;
+                        //Console.WriteLine("Found duplicate of word: " + word);
+                    }
+                }
+            }
+            Console.WriteLine("Finished putting " + wordCounter + " unique words in the list");
+            return wordList;
         }
-
-		public List<string> SplitLines(string sourceString)
-		{
-			List<string> sentenceList = new List<string>();
-			int sentenceCounter = 0;
-			StringReader sr = new StringReader (sourceString);
-			string rLine = null;
-			while (true) 
-			{
-				rLine = sr.ReadLine ();
-				if (rLine != null) 
-				{
-					sentenceList.Add (rLine);
-				} 
-				else 
-				{
-					return sentenceList;
-				}
-			}
-		}
 
         /// <summary>
         /// Reads a json formatted string and splits each line into sentences.
@@ -72,8 +76,13 @@ namespace OrdFyrirOrd
                     }
                 }
             }
+            if (sentenceList.Count < 2)
+            {
+                throw new Exception("The supplied source has no more than 1 sentence");
+            }
             Console.WriteLine("Finished putting " + sentenceCounter + " sentences in the list");
             return sentenceList;
         }
+        #endregion
     }
 }

@@ -75,6 +75,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\FilePersistenceExtensions.cs" />
+    <Compile Include="Interfaces\IReader.cs" />
+    <Compile Include="Interfaces\Readers\XmlReaderWrapper.cs" />
+    <Compile Include="Models\SentenceModel.cs" />
+    <Compile Include="Models\SourceModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SentenceHandler.cs" />
@@ -82,7 +86,6 @@
     <Compile Include="SourceHandler.cs" />
     <Compile Include="WebCrawler.cs" />
     <Compile Include="WordExtractor.cs" />
-    <Compile Include="WordCounter.cs" />
     <Compile Include="FileProcessor.cs" />
     <Compile Include="WordHandler.cs" />
   </ItemGroup>
